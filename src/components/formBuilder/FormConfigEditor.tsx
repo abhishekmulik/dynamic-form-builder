@@ -6,6 +6,10 @@ import { validateJSON } from '../../utils/common.utils';
 import { useAppDispatch, useAppSelector, setJsonInput, setError, setParsedFormData, clearForm } from '../../store';
 import sampleFormConfig from '../../data/sampleFormConfig.json';
 import data2 from '../../data/data2.json';
+import jobApplication from '../../data/job-application.json';
+import nestedConditionalForm from '../../data/nested-conditional-form.json';
+
+const data = nestedConditionalForm;
 
 function FormConfigEditor() {
   const dispatch = useAppDispatch();
@@ -29,9 +33,9 @@ function FormConfigEditor() {
   };
 
   const handleLoadSample = () => {
-    const sampleJson = JSON.stringify(data2, null, 2);
+    const sampleJson = JSON.stringify(data, null, 2);
     dispatch(setJsonInput(sampleJson));
-    dispatch(setParsedFormData(data2));
+    dispatch(setParsedFormData(data));
   };
 
   return (

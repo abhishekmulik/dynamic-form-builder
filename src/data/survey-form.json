@@ -1,0 +1,182 @@
+{
+  "formTitle": "Customer Satisfaction Survey",
+  "fields": [
+    {
+      "id": "customerName",
+      "type": "text",
+      "label": "Your Name (Optional)",
+      "required": false,
+      "placeholder": "Enter your name"
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": true,
+      "placeholder": "Enter your email for survey results"
+    },
+    {
+      "id": "ageGroup",
+      "type": "radio",
+      "label": "What is your age group?",
+      "required": true,
+      "options": [
+        { "value": "18-24", "label": "18-24 years" },
+        { "value": "25-34", "label": "25-34 years" },
+        { "value": "35-44", "label": "35-44 years" },
+        { "value": "45-54", "label": "45-54 years" },
+        { "value": "55+", "label": "55+ years" }
+      ]
+    },
+    {
+      "id": "productUsed",
+      "type": "select",
+      "label": "Which product did you use?",
+      "required": true,
+      "placeholder": "Select a product",
+      "options": [
+        { "value": "mobile-app", "label": "Mobile App" },
+        { "value": "web-app", "label": "Web Application" },
+        { "value": "desktop-software", "label": "Desktop Software" },
+        { "value": "api-service", "label": "API Service" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "id": "otherProduct",
+      "type": "text",
+      "label": "Please specify the product",
+      "required": false,
+      "placeholder": "Describe the product you used",
+      "conditional": {
+        "field": "productUsed",
+        "operator": "equals",
+        "value": "other",
+        "action": "show"
+      }
+    },
+    {
+      "id": "satisfaction",
+      "type": "radio",
+      "label": "How satisfied are you with our product?",
+      "required": true,
+      "options": [
+        { "value": "very-satisfied", "label": "Very Satisfied" },
+        { "value": "satisfied", "label": "Satisfied" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "dissatisfied", "label": "Dissatisfied" },
+        { "value": "very-dissatisfied", "label": "Very Dissatisfied" }
+      ]
+    },
+    {
+      "id": "rating",
+      "type": "number",
+      "label": "Rate our product (1-10)",
+      "required": true,
+      "placeholder": "Enter a rating from 1 to 10",
+      "validation": {
+        "min": 1,
+        "max": 10,
+        "message": "Rating must be between 1 and 10"
+      }
+    },
+    {
+      "id": "features",
+      "type": "checkbox_group",
+      "label": "Which features do you use most?",
+      "required": false,
+      "options": [
+        { "value": "user-interface", "label": "User Interface" },
+        { "value": "performance", "label": "Performance" },
+        { "value": "security", "label": "Security Features" },
+        { "value": "integration", "label": "Third-party Integrations" },
+        { "value": "support", "label": "Customer Support" },
+        { "value": "documentation", "label": "Documentation" }
+      ]
+    },
+    {
+      "id": "wouldRecommend",
+      "type": "radio",
+      "label": "Would you recommend our product to others?",
+      "required": true,
+      "options": [
+        { "value": "definitely", "label": "Definitely" },
+        { "value": "probably", "label": "Probably" },
+        { "value": "maybe", "label": "Maybe" },
+        { "value": "probably-not", "label": "Probably Not" },
+        { "value": "definitely-not", "label": "Definitely Not" }
+      ]
+    },
+    {
+      "id": "improvementAreas",
+      "type": "textarea",
+      "label": "What areas would you like us to improve?",
+      "required": false,
+      "placeholder": "Please share your suggestions for improvement...",
+      "rows": 4,
+      "conditional": {
+        "field": "satisfaction",
+        "operator": "in",
+        "value": ["neutral", "dissatisfied", "very-dissatisfied"],
+        "action": "show"
+      }
+    },
+    {
+      "id": "pricingSatisfaction",
+      "type": "radio",
+      "label": "How satisfied are you with our pricing?",
+      "required": false,
+      "options": [
+        { "value": "very-satisfied", "label": "Very Satisfied" },
+        { "value": "satisfied", "label": "Satisfied" },
+        { "value": "neutral", "label": "Neutral" },
+        { "value": "dissatisfied", "label": "Dissatisfied" },
+        { "value": "very-dissatisfied", "label": "Very Dissatisfied" }
+      ]
+    },
+    {
+      "id": "contactSupport",
+      "type": "checkbox",
+      "label": "Would you like us to contact you for follow-up?",
+      "required": false
+    },
+    {
+      "id": "phoneNumber",
+      "type": "tel",
+      "label": "Phone Number (for follow-up)",
+      "required": false,
+      "placeholder": "Enter your phone number",
+      "conditional": {
+        "field": "contactSupport",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      },
+      "validation": {
+        "pattern": "^[+]?[0-9\\s\\-()]+$",
+        "message": "Please enter a valid phone number"
+      }
+    },
+    {
+      "id": "additionalComments",
+      "type": "textarea",
+      "label": "Additional Comments",
+      "required": false,
+      "placeholder": "Any other comments or feedback...",
+      "rows": 3
+    },
+    {
+      "id": "consent",
+      "type": "checkbox",
+      "label": "I consent to my data being used for improving our products and services",
+      "required": true,
+      "validation": {
+        "value": "true"
+      }
+    }
+  ],
+  "submitButton": {
+    "text": "Submit Survey",
+    "variant": "primary"
+  }
+}

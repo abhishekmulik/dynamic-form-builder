@@ -28,6 +28,7 @@ export interface FormFieldConfig {
     message?: string;
   };
   conditional?: ConditionalRule;  // New: conditional rendering rule
+  defaultValue?: any; // New: default value to prefill
 }
 
 export interface FormConfig {
@@ -52,46 +53,6 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { formData, formErrors, isFormValid } = useAppSelector((state) => state.formBuilder);
-
-  // Conditional rendering logic engine
-  const evaluateCondition = (rule: ConditionalRule): boolean => {
-    const dependentFieldValue = formData[rule.field];
-    switch (rule.operator) {
-      case 'equals':
-        return dependentFieldValue === rule.value;
-      case 'not_equals':
-        return dependentFieldValue !== rule.value;
-      case 'contains':
-        if (Array.isArray(dependentFieldValue)) {
-          return dependentFieldValue.includes(rule.value);
-        }
-        return String(dependentFieldValue).includes(String(rule.value));
-      case 'greater_than':
-        return Number(dependentFieldValue) > Number(rule.value);
-      case 'less_than':
-        return Number(dependentFieldValue) < Number(rule.value);
-      case 'is_empty':
-        return !dependentFieldValue || 
-               (Array.isArray(dependentFieldValue) && dependentFieldValue.length === 0) ||
-               String(dependentFieldValue).trim() === '';
-      case 'is_not_empty':
-        return !!dependentFieldValue && 
-               (!Array.isArray(dependentFieldValue) || dependentFieldValue.length > 0) &&
-               String(dependentFieldValue).trim() !== '';
-      default:
-        return true;
-    }
-  };
-
-  // Check if a field should be visible
-  const isFieldVisible = (field: FormFieldConfig): boolean => {
-    if (!field.conditional) return true;
-    const shouldShow = evaluateCondition(field.conditional);
-    return field.conditional.action === 'show' ? shouldShow : !shouldShow;
-  };
-
-  // Get visible fields only
-  const visibleFields = config.fields.filter(isFieldVisible);
 
   useEffect(() => {
     // Initialize form data with default values
@@ -135,11 +96,15 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     const newErrors: Record<string, string> = {};
     let isValid = true;
 
-    config.fields.forEach((field) => {
-      const error = validateField(field, formData[field.id]);
-      if (error) {
-        newErrors[field.id] = error;
-        isValid = false;
+    // Only validate fields that are currently in formData (visible fields)
+    Object.keys(formData).forEach((fieldId) => {
+      const field = config.fields.find(f => f.id === fieldId);
+      if (field) {
+        const error = validateField(field, formData[fieldId]);
+        if (error) {
+          newErrors[fieldId] = error;
+          isValid = false;
+        }
       }
     });
 
@@ -163,6 +128,10 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
       </Box>
     );
   }
+  
+  // Only render fields that are currently in formData (visible fields)
+  const visibleFields = config.fields.filter(field => field.id in formData);
+  
   console.log({isFormValid, formData}, 'visibleFields');
   return (
     <Box as="form" p={6}>
@@ -181,7 +150,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
                 key={field.id}
                 id={field.id}
                 type={field.type}
-                value={formData[field.id] || false}
+                value={formData[field.id] ?? false}
                 onChange={(value) => handleFieldChange(field.id, value)}
                 required={field.required}
                 placeholder={field.placeholder}
@@ -206,7 +175,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
               <FormField
                 id={field.id}
                 type={field.type}
-                value={formData[field.id] || ''}
+                value={formData[field.id] ?? ''}
                 onChange={(value) => handleFieldChange(field.id, value)}
                 required={field.required}
                 placeholder={field.placeholder}

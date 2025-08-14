@@ -1,0 +1,300 @@
+{
+  "formTitle": "Job Application Form",
+  "fields": [
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position Applied For",
+      "required": true,
+      "placeholder": "Select a position",
+      "options": [
+        { "value": "frontend-developer", "label": "Frontend Developer" },
+        { "value": "backend-developer", "label": "Backend Developer" },
+        { "value": "fullstack-developer", "label": "Full Stack Developer" },
+        { "value": "ui-ux-designer", "label": "UI/UX Designer" },
+        { "value": "product-manager", "label": "Product Manager" },
+        { "value": "data-scientist", "label": "Data Scientist" },
+        { "value": "devops-engineer", "label": "DevOps Engineer" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "id": "otherPosition",
+      "type": "text",
+      "label": "Please specify the position",
+      "required": false,
+      "placeholder": "Describe the position you're applying for",
+      "conditional": {
+        "field": "position",
+        "operator": "equals",
+        "value": "other",
+        "action": "show"
+      }
+    },
+    {
+      "id": "firstName",
+      "type": "text",
+      "label": "First Name",
+      "required": true,
+      "placeholder": "Enter your first name",
+      "validation": {
+        "min": 2,
+        "max": 30,
+        "pattern": "^[a-zA-Z\\s]+$",
+        "message": "First name should only contain letters and spaces"
+      }
+    },
+    {
+      "id": "lastName",
+      "type": "text",
+      "label": "Last Name",
+      "required": true,
+      "placeholder": "Enter your last name",
+      "validation": {
+        "min": 2,
+        "max": 30,
+        "pattern": "^[a-zA-Z\\s]+$",
+        "message": "Last name should only contain letters and spaces"
+      }
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": true,
+      "placeholder": "Enter your email address",
+      "validation": {
+        "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+        "message": "Please enter a valid email address"
+      }
+    },
+    {
+      "id": "phone",
+      "type": "tel",
+      "label": "Phone Number",
+      "required": true,
+      "placeholder": "Enter your phone number",
+      "validation": {
+        "pattern": "^[+]?[0-9\\s\\-()]+$",
+        "message": "Please enter a valid phone number"
+      }
+    },
+    {
+      "id": "location",
+      "type": "select",
+      "label": "Preferred Location",
+      "required": true,
+      "placeholder": "Select preferred location",
+      "options": [
+        { "value": "remote", "label": "Remote" },
+        { "value": "new-york", "label": "New York" },
+        { "value": "san-francisco", "label": "San Francisco" },
+        { "value": "london", "label": "London" },
+        { "value": "berlin", "label": "Berlin" },
+        { "value": "tokyo", "label": "Tokyo" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "id": "otherLocation",
+      "type": "text",
+      "label": "Please specify the location",
+      "required": false,
+      "placeholder": "Enter your preferred location",
+      "conditional": {
+        "field": "location",
+        "operator": "equals",
+        "value": "other",
+        "action": "show"
+      }
+    },
+    {
+      "id": "experience",
+      "type": "radio",
+      "label": "Years of Experience",
+      "required": true,
+      "options": [
+        { "value": "0-1", "label": "0-1 years" },
+        { "value": "2-3", "label": "2-3 years" },
+        { "value": "4-6", "label": "4-6 years" },
+        { "value": "7-10", "label": "7-10 years" },
+        { "value": "10+", "label": "10+ years" }
+      ]
+    },
+    {
+      "id": "education",
+      "type": "select",
+      "label": "Highest Education Level",
+      "required": true,
+      "placeholder": "Select education level",
+      "options": [
+        { "value": "high-school", "label": "High School" },
+        { "value": "associate", "label": "Associate Degree" },
+        { "value": "bachelor", "label": "Bachelor's Degree" },
+        { "value": "master", "label": "Master's Degree" },
+        { "value": "phd", "label": "PhD" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "id": "skills",
+      "type": "checkbox_group",
+      "label": "Technical Skills",
+      "required": false,
+      "options": [
+        { "value": "javascript", "label": "JavaScript" },
+        { "value": "typescript", "label": "TypeScript" },
+        { "value": "react", "label": "React" },
+        { "value": "vue", "label": "Vue.js" },
+        { "value": "angular", "label": "Angular" },
+        { "value": "nodejs", "label": "Node.js" },
+        { "value": "python", "label": "Python" },
+        { "value": "java", "label": "Java" },
+        { "value": "csharp", "label": "C#" },
+        { "value": "sql", "label": "SQL" },
+        { "value": "mongodb", "label": "MongoDB" },
+        { "value": "aws", "label": "AWS" },
+        { "value": "docker", "label": "Docker" },
+        { "value": "kubernetes", "label": "Kubernetes" },
+        { "value": "git", "label": "Git" }
+      ]
+    },
+    {
+      "id": "hasPortfolio",
+      "type": "checkbox",
+      "label": "Do you have a portfolio or GitHub profile?",
+      "required": false
+    },
+    {
+      "id": "portfolioUrl",
+      "type": "text",
+      "label": "Portfolio/GitHub URL",
+      "required": false,
+      "placeholder": "Enter your portfolio or GitHub URL",
+      "conditional": {
+        "field": "hasPortfolio",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      },
+      "validation": {
+        "pattern": "^https?://.+",
+        "message": "Please enter a valid URL starting with http:// or https://"
+      }
+    },
+    {
+      "id": "hasResume",
+      "type": "checkbox",
+      "label": "I will upload my resume",
+      "required": false
+    },
+    {
+      "id": "resumeFile",
+      "type": "file",
+      "label": "Resume/CV (PDF, DOC, DOCX)",
+      "required": false,
+      "accept": ".pdf,.doc,.docx",
+      "conditional": {
+        "field": "hasResume",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      }
+    },
+    {
+      "id": "coverLetter",
+      "type": "textarea",
+      "label": "Cover Letter",
+      "required": false,
+      "placeholder": "Tell us why you're interested in this position and why you'd be a great fit...",
+      "rows": 6,
+      "validation": {
+        "min": 100,
+        "max": 2000,
+        "message": "Cover letter should be between 100 and 2000 characters"
+      }
+    },
+    {
+      "id": "salaryExpectation",
+      "type": "number",
+      "label": "Expected Annual Salary (USD)",
+      "required": false,
+      "placeholder": "Enter your expected salary",
+      "validation": {
+        "min": 30000,
+        "max": 500000,
+        "message": "Please enter a reasonable salary expectation"
+      }
+    },
+    {
+      "id": "startDate",
+      "type": "date",
+      "label": "Earliest Start Date",
+      "required": true
+    },
+    {
+      "id": "relocation",
+      "type": "radio",
+      "label": "Are you willing to relocate?",
+      "required": true,
+      "options": [
+        { "value": "yes", "label": "Yes" },
+        { "value": "no", "label": "No" },
+        { "value": "maybe", "label": "Maybe, depending on the opportunity" }
+      ]
+    },
+    {
+      "id": "workAuthorization",
+      "type": "radio",
+      "label": "Work Authorization Status",
+      "required": true,
+      "options": [
+        { "value": "citizen", "label": "US Citizen" },
+        { "value": "permanent-resident", "label": "Permanent Resident" },
+        { "value": "visa-holder", "label": "Visa Holder" },
+        { "value": "no-authorization", "label": "No work authorization" }
+      ]
+    },
+    {
+      "id": "visaType",
+      "type": "select",
+      "label": "Visa Type (if applicable)",
+      "required": false,
+      "placeholder": "Select visa type",
+      "conditional": {
+        "field": "workAuthorization",
+        "operator": "equals",
+        "value": "visa-holder",
+        "action": "show"
+      },
+      "options": [
+        { "value": "h1b", "label": "H-1B" },
+        { "value": "f1", "label": "F-1" },
+        { "value": "l1", "label": "L-1" },
+        { "value": "other", "label": "Other" }
+      ]
+    },
+    {
+      "id": "references",
+      "type": "checkbox",
+      "label": "I can provide professional references upon request",
+      "required": true,
+      "validation": {
+        "value": "true"
+      }
+    },
+    {
+      "id": "terms",
+      "type": "checkbox",
+      "label": "I agree to the terms and conditions of this application",
+      "required": true,
+      "validation": {
+        "value": "true"
+      }
+    }
+  ],
+  "submitButton": {
+    "text": "Submit Application",
+    "variant": "primary"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "formTitle": "Minimal Test Form",
+  "fields": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Name",
+      "required": true
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email",
+      "required": true
+    }
+  ],
+  "submitButton": {
+    "text": "Submit",
+    "variant": "primary"
+  }
+}

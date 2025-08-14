@@ -7,6 +7,7 @@
       "label": "Full Name",
       "required": true,
       "placeholder": "Enter your full name",
+      "defaultValue": "John Doe",
       "validation": {
         "min": 2,
         "max": 50,
@@ -18,6 +19,7 @@
       "id": "email",
       "type": "email",
       "label": "Email Address",
+      "defaultValue": "john.doe@example.com",
       "required": true,
       "placeholder": "Enter your email address",
       "validation": {
@@ -29,6 +31,7 @@
       "id": "contactType",
       "type": "radio",
       "label": "Preferred Contact Method",
+      "defaultValue": "phone",
       "required": true,
       "options": [
         { "value": "phone", "label": "Phone Call" },
@@ -40,6 +43,7 @@
       "id": "phone",
       "type": "tel",
       "label": "Phone Number",
+      "defaultValue": "+1234567890",
       "required": false,
       "placeholder": "Enter your phone number",
       "conditional": {
@@ -57,6 +61,7 @@
       "id": "smsEnabled",
       "type": "checkbox",
       "label": "Enable SMS notifications",
+      "defaultValue": true,
       "required": false,
       "conditional": {
         "field": "contactType",
@@ -69,6 +74,7 @@
       "id": "age",
       "type": "number",
       "label": "Age",
+      "defaultValue": 25,
       "required": false,
       "placeholder": "Enter your age",
       "validation": {

@@ -1,0 +1,311 @@
+{
+  "formTitle": "Nested Conditional Form Test",
+  "fields": [
+    {
+      "id": "userType",
+      "type": "select",
+      "label": "User Type",
+      "required": true,
+      "options": [
+        { "value": "individual", "label": "Individual" },
+        { "value": "business", "label": "Business" },
+        { "value": "organization", "label": "Organization" }
+      ]
+    },
+    {
+      "id": "individualName",
+      "type": "text",
+      "label": "Full Name",
+      "required": true,
+      "placeholder": "Enter your full name",
+      "conditional": {
+        "field": "userType",
+        "operator": "equals",
+        "value": "individual",
+        "action": "show"
+      }
+    },
+    {
+      "id": "businessName",
+      "type": "text",
+      "label": "Business Name",
+      "required": true,
+      "placeholder": "Enter business name",
+      "conditional": {
+        "field": "userType",
+        "operator": "equals",
+        "value": "business",
+        "action": "show"
+      }
+    },
+    {
+      "id": "organizationName",
+      "type": "text",
+      "label": "Organization Name",
+      "required": true,
+      "placeholder": "Enter organization name",
+      "conditional": {
+        "field": "userType",
+        "operator": "equals",
+        "value": "organization",
+        "action": "show"
+      }
+    },
+    {
+      "id": "hasEmployees",
+      "type": "checkbox",
+      "label": "Do you have employees?",
+      "required": false,
+      "conditional": {
+        "field": "userType",
+        "operator": "not_equals",
+        "value": "individual",
+        "action": "show"
+      }
+    },
+    {
+      "id": "employeeCount",
+      "type": "number",
+      "label": "Number of Employees",
+      "required": true,
+      "placeholder": "Enter number of employees",
+      "validation": {
+        "min": 1,
+        "max": 10000,
+        "message": "Employee count must be between 1 and 10,000"
+      },
+      "conditional": {
+        "field": "hasEmployees",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      }
+    },
+    {
+      "id": "businessType",
+      "type": "select",
+      "label": "Business Type",
+      "required": true,
+      "options": [
+        { "value": "retail", "label": "Retail" },
+        { "value": "manufacturing", "label": "Manufacturing" },
+        { "value": "services", "label": "Services" },
+        { "value": "technology", "label": "Technology" }
+      ],
+      "conditional": {
+        "field": "userType",
+        "operator": "equals",
+        "value": "business",
+        "action": "show"
+      }
+    },
+    {
+      "id": "retailLocation",
+      "type": "text",
+      "label": "Retail Location Address",
+      "required": true,
+      "placeholder": "Enter retail location address",
+      "conditional": {
+        "field": "businessType",
+        "operator": "equals",
+        "value": "retail",
+        "action": "show"
+      }
+    },
+    {
+      "id": "manufacturingCapacity",
+      "type": "number",
+      "label": "Manufacturing Capacity (units/day)",
+      "required": true,
+      "placeholder": "Enter daily manufacturing capacity",
+      "validation": {
+        "min": 1,
+        "message": "Capacity must be at least 1"
+      },
+      "conditional": {
+        "field": "businessType",
+        "operator": "equals",
+        "value": "manufacturing",
+        "action": "show"
+      }
+    },
+    {
+      "id": "serviceCategories",
+      "type": "checkbox_group",
+      "label": "Service Categories Offered",
+      "required": true,
+      "options": [
+        { "value": "consulting", "label": "Consulting" },
+        { "value": "training", "label": "Training" },
+        { "value": "support", "label": "Technical Support" },
+        { "value": "maintenance", "label": "Maintenance" }
+      ],
+      "conditional": {
+        "field": "businessType",
+        "operator": "equals",
+        "value": "services",
+        "action": "show"
+      }
+    },
+    {
+      "id": "techStack",
+      "type": "checkbox_group",
+      "label": "Technology Stack",
+      "required": true,
+      "options": [
+        { "value": "web", "label": "Web Development" },
+        { "value": "mobile", "label": "Mobile Development" },
+        { "value": "ai", "label": "Artificial Intelligence" },
+        { "value": "cloud", "label": "Cloud Computing" }
+      ],
+      "conditional": {
+        "field": "businessType",
+        "operator": "equals",
+        "value": "technology",
+        "action": "show"
+      }
+    },
+    {
+      "id": "organizationType",
+      "type": "select",
+      "label": "Organization Type",
+      "required": true,
+      "options": [
+        { "value": "nonprofit", "label": "Non-Profit" },
+        { "value": "government", "label": "Government" },
+        { "value": "educational", "label": "Educational" }
+      ],
+      "conditional": {
+        "field": "userType",
+        "operator": "equals",
+        "value": "organization",
+        "action": "show"
+      }
+    },
+    {
+      "id": "fundingSource",
+      "type": "select",
+      "label": "Primary Funding Source",
+      "required": true,
+      "options": [
+        { "value": "donations", "label": "Donations" },
+        { "value": "grants", "label": "Grants" },
+        { "value": "membership", "label": "Membership Fees" }
+      ],
+      "conditional": {
+        "field": "organizationType",
+        "operator": "equals",
+        "value": "nonprofit",
+        "action": "show"
+      }
+    },
+    {
+      "id": "donationAmount",
+      "type": "number",
+      "label": "Average Donation Amount ($)",
+      "required": false,
+      "placeholder": "Enter average donation amount",
+      "validation": {
+        "min": 1,
+        "message": "Amount must be at least $1"
+      },
+      "conditional": {
+        "field": "fundingSource",
+        "operator": "equals",
+        "value": "donations",
+        "action": "show"
+      }
+    },
+    {
+      "id": "governmentLevel",
+      "type": "select",
+      "label": "Government Level",
+      "required": true,
+      "options": [
+        { "value": "federal", "label": "Federal" },
+        { "value": "state", "label": "State" },
+        { "value": "local", "label": "Local" }
+      ],
+      "conditional": {
+        "field": "organizationType",
+        "operator": "equals",
+        "value": "government",
+        "action": "show"
+      }
+    },
+    {
+      "id": "departmentName",
+      "type": "text",
+      "label": "Department Name",
+      "required": true,
+      "placeholder": "Enter department name",
+      "conditional": {
+        "field": "governmentLevel",
+        "operator": "not_equals",
+        "value": "local",
+        "action": "show"
+      }
+    },
+    {
+      "id": "educationLevel",
+      "type": "select",
+      "label": "Education Level",
+      "required": true,
+      "options": [
+        { "value": "primary", "label": "Primary Education" },
+        { "value": "secondary", "label": "Secondary Education" },
+        { "value": "higher", "label": "Higher Education" }
+      ],
+      "conditional": {
+        "field": "organizationType",
+        "operator": "equals",
+        "value": "educational",
+        "action": "show"
+      }
+    },
+    {
+      "id": "studentCount",
+      "type": "number",
+      "label": "Number of Students",
+      "required": true,
+      "placeholder": "Enter number of students",
+      "validation": {
+        "min": 1,
+        "message": "Student count must be at least 1"
+      },
+      "conditional": {
+        "field": "educationLevel",
+        "operator": "not_equals",
+        "value": "primary",
+        "action": "show"
+      }
+    },
+    {
+      "id": "contactEmail",
+      "type": "email",
+      "label": "Contact Email",
+      "required": true,
+      "placeholder": "Enter contact email"
+    },
+    {
+      "id": "contactPhone",
+      "type": "tel",
+      "label": "Contact Phone",
+      "required": false,
+      "placeholder": "Enter contact phone number"
+    },
+    {
+      "id": "agreement",
+      "type": "checkbox",
+      "label": "I agree to the terms and conditions",
+      "required": true,
+      "validation": {
+        "value": "true"
+      }
+    }
+  ],
+  "submitButton": {
+    "text": "Submit Registration",
+    "variant": "primary"
+  }
+}

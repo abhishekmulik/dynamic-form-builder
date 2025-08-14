@@ -1,0 +1,25 @@
+{
+    "formTitle": "Other form",
+    "fields": [
+      {
+        "id": "date",
+        "type": "date",
+        "label": "Birthday",
+        "required": true
+      },
+      {
+        "id": "terms",
+        "type": "checkbox",
+        "label": "I agree to the Terms of Service and Privacy Policy",
+        "required": true,
+        "validation": {
+          "value": "true"
+        }
+      }
+    ],
+    "submitButton": {
+      "text": "Send Message",
+      "variant": "primary"
+    }
+  }
+  

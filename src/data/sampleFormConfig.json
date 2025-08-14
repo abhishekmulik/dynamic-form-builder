@@ -1,0 +1,223 @@
+{
+  "formTitle": "Advanced Contact Form with Conditional Fields",
+  "fields": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Full Name",
+      "required": true,
+      "placeholder": "Enter your full name",
+      "validation": {
+        "min": 2,
+        "max": 50,
+        "pattern": "^[a-zA-Z\\s]+$",
+        "message": "Name should only contain letters and spaces"
+      }
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": true,
+      "placeholder": "Enter your email address",
+      "validation": {
+        "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$",
+        "message": "Please enter a valid email address"
+      }
+    },
+    {
+      "id": "contactType",
+      "type": "radio",
+      "label": "Preferred Contact Method",
+      "required": true,
+      "options": [
+        { "value": "phone", "label": "Phone Call" },
+        { "value": "email", "label": "Email" },
+        { "value": "sms", "label": "SMS" }
+      ]
+    },
+    {
+      "id": "phone",
+      "type": "tel",
+      "label": "Phone Number",
+      "required": false,
+      "placeholder": "Enter your phone number",
+      "conditional": {
+        "field": "contactType",
+        "operator": "equals",
+        "value": "phone",
+        "action": "show"
+      },
+      "validation": {
+        "pattern": "^[+]?[0-9\\s\\-()]+$",
+        "message": "Please enter a valid phone number"
+      }
+    },
+    {
+      "id": "smsEnabled",
+      "type": "checkbox",
+      "label": "Enable SMS notifications",
+      "required": false,
+      "conditional": {
+        "field": "contactType",
+        "operator": "equals",
+        "value": "sms",
+        "action": "show"
+      }
+    },
+    {
+      "id": "age",
+      "type": "number",
+      "label": "Age",
+      "required": false,
+      "placeholder": "Enter your age",
+      "validation": {
+        "min": 13,
+        "max": 120,
+        "message": "Age must be between 13 and 120"
+      }
+    },
+    {
+      "id": "isStudent",
+      "type": "checkbox",
+      "label": "Are you a student?",
+      "required": false
+    },
+    {
+      "id": "university",
+      "type": "text",
+      "label": "University/College Name",
+      "required": false,
+      "placeholder": "Enter your university name",
+      "conditional": {
+        "field": "isStudent",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      }
+    },
+    {
+      "id": "graduationYear",
+      "type": "number",
+      "label": "Expected Graduation Year",
+      "required": false,
+      "placeholder": "Enter graduation year",
+      "conditional": {
+        "field": "isStudent",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      },
+      "validation": {
+        "min": 2024,
+        "max": 2030,
+        "message": "Graduation year must be between 2024 and 2030"
+      }
+    },
+    {
+      "id": "hasCompany",
+      "type": "checkbox",
+      "label": "Do you have a company?",
+      "required": false
+    },
+    {
+      "id": "companyName",
+      "type": "text",
+      "label": "Company Name",
+      "required": false,
+      "placeholder": "Enter your company name",
+      "conditional": {
+        "field": "hasCompany",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      }
+    },
+    {
+      "id": "companySize",
+      "type": "select",
+      "label": "Company Size",
+      "required": false,
+      "placeholder": "Select company size",
+      "conditional": {
+        "field": "hasCompany",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      },
+      "options": [
+        { "value": "1-10", "label": "1-10 employees" },
+        { "value": "11-50", "label": "11-50 employees" },
+        { "value": "51-200", "label": "51-200 employees" },
+        { "value": "201+", "label": "201+ employees" }
+      ]
+    },
+    {
+      "id": "priority",
+      "type": "radio",
+      "label": "Priority Level",
+      "required": true,
+      "options": [
+        { "value": "low", "label": "Low" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "high", "label": "High" },
+        { "value": "urgent", "label": "Urgent" }
+      ]
+    },
+    {
+      "id": "urgentReason",
+      "type": "textarea",
+      "label": "Reason for Urgent Priority",
+      "required": false,
+      "placeholder": "Please explain why this is urgent...",
+      "rows": 3,
+      "conditional": {
+        "field": "priority",
+        "operator": "equals",
+        "value": "urgent",
+        "action": "show"
+      },
+      "validation": {
+        "min": 10,
+        "max": 500,
+        "message": "Please provide a detailed explanation (10-500 characters)"
+      }
+    },
+    {
+      "id": "interests",
+      "type": "checkbox_group",
+      "label": "Areas of Interest",
+      "required": false,
+      "options": [
+        { "value": "web", "label": "Web Development" },
+        { "value": "mobile", "label": "Mobile Development" },
+        { "value": "ai", "label": "Artificial Intelligence" },
+        { "value": "cloud", "label": "Cloud Computing" },
+        { "value": "security", "label": "Cybersecurity" }
+      ]
+    },
+    {
+      "id": "message",
+      "type": "textarea",
+      "label": "Detailed Message",
+      "required": true,
+      "placeholder": "Please provide detailed information about your inquiry...",
+      "rows": 6,
+      "validation": {
+        "min": 10,
+        "max": 1000,
+        "message": "Message must be between 10 and 1000 characters"
+      }
+    },
+    {
+      "id": "terms",
+      "type": "checkbox",
+      "label": "I agree to the Terms of Service and Privacy Policy",
+      "required": true
+    }
+  ],
+  "submitButton": {
+    "text": "Send Message",
+    "variant": "primary"
+  }
+}

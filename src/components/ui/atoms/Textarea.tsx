@@ -15,16 +15,14 @@ export function TextArea(props: TextareaProps) {
     <Textarea
       ref={textareaRef}
       placeholder="Comment..."
-      borderColor="secondary.200"
-      _hover={{ borderColor: "secondary.300" }}
-      _focus={{
-        borderColor: "primary.500",
-        boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+      _hover={{
+        borderColor: "none"
       }}
-      transition="height 0.2s ease"
+      _focus={{
+
+      }}
       minH="unset"
-      overflow="hidden"
-      resize="none"
+      overflow="auto"
       cursor={"text"}
       {...props}
     />

@@ -1,15 +1,18 @@
 import React from 'react';
 import './App.css';
-import FormBuilder from './components/FormBuilder';
-import ThemeShowcase from './components/ThemeShowcase';
+import FormBuilder from './components/formBuilder/FormBuilder';
 import { Box } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 function App() {
   return (
-    <Box>
-      {/* <ThemeShowcase /> */}
-      <FormBuilder/>
-    </Box>
+    <Provider store={store}>
+      <Box>
+        {/* <ThemeShowcase /> */}
+        <FormBuilder />
+      </Box>
+    </Provider>
   );
 }
 

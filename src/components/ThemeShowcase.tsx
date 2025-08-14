@@ -218,7 +218,7 @@ const ThemeShowcase = () => {
                   <strong>Primary.50</strong> background with <strong>primary.500</strong> left border
                 </Text>
               </Box>
-              
+
               <Box p={4} bg="secondary.100" border="1px solid" borderColor="secondary.300" borderRadius="md">
                 <Text color="secondary.800">
                   <strong>Secondary.100</strong> background with <strong>secondary.300</strong> border

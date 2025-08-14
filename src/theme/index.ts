@@ -100,41 +100,26 @@ const fonts = {
 const components = {
   Button: {
     defaultProps: {
-      colorScheme: 'primary',
+      colorScheme: 'secondary',
     },
     variants: {
       solid: {
-        bg: 'primary.500',
+        bg: 'secondary.700',
         color: 'white',
         _hover: {
-          bg: 'primary.600',
+          bg: 'secondary.800',
         },
         _active: {
-          bg: 'primary.700',
+          bg: 'secondary.700',
         },
       },
       outline: {
-        borderColor: 'primary.500',
-        color: 'primary.500',
+        borderColor: 'secondary.700',
+        color: 'secondary.700',
         _hover: {
-          bg: 'primary.50',
+          bg: 'secondary.50',
         },
       },
-    },
-  },
-  Input: {
-    defaultProps: {
-      focusBorderColor: 'primary.500',
-    },
-  },
-  Textarea: {
-    defaultProps: {
-      focusBorderColor: 'primary.500',
-    },
-  },
-  Select: {
-    defaultProps: {
-      focusBorderColor: 'primary.500',
     },
   },
 };

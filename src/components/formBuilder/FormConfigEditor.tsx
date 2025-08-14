@@ -9,7 +9,7 @@ import data2 from '../../data/data2.json';
 import jobApplication from '../../data/job-application.json';
 import nestedConditionalForm from '../../data/nested-conditional-form.json';
 
-const data = nestedConditionalForm;
+const data = data2;
 
 function FormConfigEditor() {
   const dispatch = useAppDispatch();

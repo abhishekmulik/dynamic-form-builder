@@ -26,6 +26,7 @@ export interface FormFieldConfig {
     max?: number;
     pattern?: string;
     message?: string;
+    value?: boolean; // New: for checkbox required validation
   };
   conditional?: ConditionalRule;  // New: conditional rendering rule
   defaultValue?: any; // New: default value to prefill
@@ -65,10 +66,21 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
 
   const validateField = (field: FormFieldConfig, value: any): string => {
     console.log(field, value)
+    
+    // Handle required field validation
     if (field.required && (value === '' || value === null || value === undefined || (Array.isArray(value) && !value.length))) {
       return `${field.label} is required`;
     }
 
+    // Handle checkbox validation for required boolean values
+    if (field.type === 'checkbox' && field.validation && field.validation.value !== undefined) {
+      const requiredValue = field.validation.value;
+      if (value !== requiredValue) {
+        return field.validation.message || `${field.label} must be ${requiredValue ? 'checked' : 'unchecked'}`;
+      }
+    }
+
+    // Handle other validation rules
     if (field.validation) {
       const { min, max, pattern } = field.validation;
 
@@ -194,6 +206,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           size="lg"
           mt={6}
           onClick={handleSubmit}
+          disabled={Object.keys(formErrors).length > 0}
         >
           {config.submitButton?.text || 'Submit'}
         </Button>

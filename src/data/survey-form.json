@@ -171,7 +171,7 @@
       "label": "I consent to my data being used for improving our products and services",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     }
   ],

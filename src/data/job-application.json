@@ -280,7 +280,7 @@
       "label": "I can provide professional references upon request",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     },
     {
@@ -289,7 +289,7 @@
       "label": "I agree to the terms and conditions of this application",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     }
   ],

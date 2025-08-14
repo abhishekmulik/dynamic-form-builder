@@ -196,7 +196,7 @@
       "label": "Required checkbox (must be checked)",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     }
   ],

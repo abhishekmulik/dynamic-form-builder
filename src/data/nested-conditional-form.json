@@ -300,7 +300,7 @@
       "label": "I agree to the terms and conditions",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     }
   ],

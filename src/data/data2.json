@@ -24,7 +24,7 @@
       "label": "I agree to the Terms of Service and Privacy Policy",
       "required": true,
       "validation": {
-        "value": "true"
+        "value": true
       }
     }
   ],

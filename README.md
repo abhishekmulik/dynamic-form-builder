@@ -1,46 +1,301 @@
-# Getting Started with Create React App
+# Dynamic Form Builder - Implementation Guide
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based form builder that creates dynamic, conditional forms from JSON configuration.
 
-## Available Scripts
+## 🚀 Quick Start
 
-In the project directory, you can run:
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-### `npm start`
+2. **Run Development Server**
+   ```bash
+   npm start
+   ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+3. **Open Browser**
+   Navigate to `http://localhost:3000`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 📝 Form Configuration Structure
 
-### `npm test`
+### Required Fields
+```json
+{
+  "title": "Form Title",
+  "fields": [
+    // Array of field objects
+  ]
+}
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Field Properties
 
-### `npm run build`
+#### **Required Properties**
+- `id`: Unique identifier (string)
+- `type`: Field type (see supported types below)
+- `label`: Display label (string)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### **Optional Properties**
+- `required`: Boolean (default: false)
+- `placeholder`: Input placeholder text
+- `helpText`: Helper text below field
+- `defaultValue`: Initial field value
+- `conditional`: Conditional rendering rules
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🎯 Supported Field Types
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### **Text Inputs**
+```json
+{
+  "id": "firstName",
+  "type": "text",
+  "label": "First Name",
+  "required": true,
+  "placeholder": "Enter your first name"
+}
+```
 
-### `npm run eject`
+### **Email**
+```json
+{
+  "id": "email",
+  "type": "email",
+  "label": "Email Address",
+  "required": true
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### **Number**
+```json
+{
+  "id": "age",
+  "type": "number",
+  "label": "Age",
+  "min": 0,
+  "max": 120
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### **Textarea**
+```json
+{
+  "id": "bio",
+  "type": "textarea",
+  "label": "Biography",
+  "rows": 4
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### **Select Dropdown**
+```json
+{
+  "id": "country",
+  "type": "select",
+  "label": "Country",
+  "required": true,
+  "options": [
+    { "value": "us", "label": "United States" },
+    { "value": "ca", "label": "Canada" },
+    { "value": "uk", "label": "United Kingdom" }
+  ]
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### **Radio Buttons**
+```json
+{
+  "id": "gender",
+  "type": "radio",
+  "label": "Gender",
+  "required": true,
+  "options": [
+    { "value": "male", "label": "Male" },
+    { "value": "female", "label": "Female" },
+    { "value": "other", "label": "Other" }
+  ]
+}
+```
 
-## Learn More
+### **Checkbox Group**
+```json
+{
+  "id": "interests",
+  "type": "checkbox_group",
+  "label": "Areas of Interest",
+  "options": [
+    { "value": "web", "label": "Web Development" },
+    { "value": "mobile", "label": "Mobile Development" },
+    { "value": "ai", "label": "Artificial Intelligence" }
+  ]
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### **Single Checkbox**
+```json
+{
+  "id": "terms",
+  "type": "checkbox",
+  "label": "I agree to the Terms of Service",
+  "required": true
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Phone Number**
+```json
+{
+  "id": "phone",
+  "type": "tel",
+  "label": "Phone Number",
+  "placeholder": "(555) 123-4567"
+}
+```
+
+## 🔀 Conditional Rendering
+
+### Basic Structure
+```json
+{
+  "conditional": {
+    "field": "dependentFieldId",
+    "operator": "equals",
+    "value": "expectedValue",
+    "action": "show"
+  }
+}
+```
+
+### Supported Operators
+- `equals`, `not_equals`
+- `contains`, `greater_than`, `less_than`
+- `is_empty`, `is_not_empty`
+
+### Example
+```json
+{
+  "id": "phone",
+  "type": "tel",
+  "label": "Phone Number",
+  "conditional": {
+    "field": "contactType",
+    "operator": "equals",
+    "value": "phone",
+    "action": "show"
+  }
+}
+```
+
+## 📊 Complete Form Example
+
+```json
+{
+  "formTitle": "Job Application Form",
+  "fields": [
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Position Applied For",
+      "required": true,
+      "placeholder": "Select a position",
+      "options": [
+        { "value": "frontend-developer", "label": "Frontend Developer" },
+        { "value": "backend-developer", "label": "Backend Developer" },
+        { "value": "fullstack-developer", "label": "Full Stack Developer" }
+      ]
+    },
+    {
+      "id": "firstName",
+      "type": "text",
+      "label": "First Name",
+      "required": true,
+      "placeholder": "Enter your first name"
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": true,
+      "placeholder": "Enter your email address"
+    },
+    {
+      "id": "experience",
+      "type": "radio",
+      "label": "Years of Experience",
+      "required": true,
+      "options": [
+        { "value": "0-1", "label": "0-1 years" },
+        { "value": "2-3", "label": "2-3 years" },
+        { "value": "4-6", "label": "4-6 years" }
+      ]
+    },
+    {
+      "id": "hasPortfolio",
+      "type": "checkbox",
+      "label": "Do you have a portfolio or GitHub profile?",
+      "required": false
+    },
+    {
+      "id": "portfolioUrl",
+      "type": "text",
+      "label": "Portfolio/GitHub URL",
+      "required": false,
+      "placeholder": "Enter your portfolio or GitHub URL",
+      "conditional": {
+        "field": "hasPortfolio",
+        "operator": "equals",
+        "value": true,
+        "action": "show"
+      }
+    },
+    {
+      "id": "coverLetter",
+      "type": "textarea",
+      "label": "Cover Letter",
+      "required": false,
+      "placeholder": "Tell us why you're interested in this position..."
+    },
+    {
+      "id": "terms",
+      "type": "checkbox",
+      "label": "I agree to the terms and conditions of this application",
+      "required": true
+    }
+  ]
+}
+```
+
+## 🧪 Testing
+
+### Run Tests
+```bash
+npm test
+```
+
+## 🎨 Customization
+
+### Theme Colors
+Edit `src/theme/color.ts` to customize:
+- Primary colors
+- Error states
+- Success states
+- Background colors
+
+### Component Styling
+All components use Chakra UI and can be customized through:
+- Theme overrides
+- Component props
+- CSS custom properties
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # React components
+│   ├── formBuilder/    # Form building interface
+│   ├── ui/            # Reusable UI components
+│   └── ...
+├── store/              # Redux store and slices
+├── theme/              # Theme configuration
+├── types/              # TypeScript type definitions
+└── utils/              # Utility functions
+```

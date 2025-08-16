@@ -1,15 +1,10 @@
 import { useCallback } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/molecules'
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/molecules'
 import { Box, Button, Flex } from '@chakra-ui/react'
 import JsonInput from '../jsonInput/JsonInput'
 import { validateJSON } from '../../utils/common.utils';
-import { useAppDispatch, useAppSelector, setJsonInput, setError, setParsedFormData, clearConfiguration, clearForm } from '../../store';
-import sampleFormConfig from '../../data/sampleFormConfig.json';
-import data2 from '../../data/data2.json';
+import { useAppDispatch, useAppSelector, setJsonInput, setError, setParsedFormData, clearConfiguration } from '../../store';
 import jobApplication from '../../data/job-application.json';
-import nestedConditionalForm from '../../data/nested-conditional-form.json';
-
-const data = jobApplication;
 
 function FormConfigEditor() {
   const dispatch = useAppDispatch();
@@ -33,7 +28,7 @@ function FormConfigEditor() {
   };
 
   const handleLoadSample = () => {
-    const sampleJson = JSON.stringify(data, null, 2);
+    const sampleJson = JSON.stringify(jobApplication, null, 2);
     dispatch(setJsonInput(sampleJson));
   };
 

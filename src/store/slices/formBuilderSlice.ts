@@ -75,65 +75,21 @@ const getVisibleFields = (fields: any[]): any[] => {
     }
   };
   
-  // Build dependency graph and find evaluation order
-  const dependencyGraph = new Map<string, string[]>();
-  const inDegree = new Map<string, number>();
-  
-  // Initialize in-degree for all fields
+  // First pass: add all non-conditional fields and initialize temp form data
   fields.forEach(field => {
-    inDegree.set(field.id, 0);
-    dependencyGraph.set(field.id, []);
-  });
-  
-  // Build dependency graph
-  fields.forEach(field => {
-    if (field.conditional && field.conditional.field) {
-      const dependencyId = field.conditional.field;
-      if (dependencyGraph.has(dependencyId)) {
-        dependencyGraph.get(dependencyId)!.push(field.id);
-        inDegree.set(field.id, (inDegree.get(field.id) || 0) + 1);
-      }
-    }
-  });
-  
-  // Topological sort using Kahn's algorithm
-  const queue: string[] = [];
-  const evaluationOrder: string[] = [];
-  
-  // Add fields with no dependencies to queue
-  fields.forEach(field => {
-    if (inDegree.get(field.id) === 0) {
-      queue.push(field.id);
-    }
-  });
-  
-  while (queue.length > 0) {
-    const currentFieldId = queue.shift()!;
-    evaluationOrder.push(currentFieldId);
-    
-    // Process dependencies
-    const dependents = dependencyGraph.get(currentFieldId) || [];
-    dependents.forEach(dependentId => {
-      inDegree.set(dependentId, inDegree.get(dependentId)! - 1);
-      if (inDegree.get(dependentId) === 0) {
-        queue.push(dependentId);
-      }
-    });
-  }
-  
-  // Process fields in dependency order
-  evaluationOrder.forEach(fieldId => {
-    const field = fields.find(f => f.id === fieldId);
-    if (!field) return;
-    
     if (!field.conditional) {
-      // Non-conditional fields are always visible
       visibleFields.push(field);
+      // Initialize with proper default value for dependency evaluation
       tempFormData[field.id] = getDefaultValue(field);
-    } else {
-      // Conditional fields - check if they should be visible
+    }
+  });
+  
+  // Second pass: evaluate conditional fields
+  fields.forEach(field => {
+    if (field.conditional) {
       if (isFieldVisible(field, tempFormData)) {
         visibleFields.push(field);
+        // Add to temp form data for future dependency evaluations
         tempFormData[field.id] = getDefaultValue(field);
       }
     }

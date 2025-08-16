@@ -297,5 +297,5 @@ src/
 ├── store/              # Redux store and slices
 ├── theme/              # Theme configuration
 ├── types/              # TypeScript type definitions
-└── utils/              # Utility functions
+└── utils/              # Utility functions.
 ```

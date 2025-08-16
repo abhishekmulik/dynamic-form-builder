@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Text, HStack, Badge } from "@chakra-ui/react";
+import { Box,  Flex, Heading  } from "@chakra-ui/react";
 
 export function AppHeader() {
   return (

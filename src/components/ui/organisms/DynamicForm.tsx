@@ -158,7 +158,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           </Heading>
         )}
 
-        <VStack spacing={4} align="stretch">
+        <VStack gap={0} align="stretch">
           {visibleFields.map((field) => {
             // For single checkboxes, we don't need LabeledField wrapper since the checkbox has its own label
             if (field.type === 'checkbox') {

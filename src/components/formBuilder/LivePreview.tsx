@@ -52,14 +52,6 @@ function LivePreview() {
           pb={{ base: 4, md: 6 }}
           minH="0"
         >
-          {error && (
-            <Box p={4} bg="red.50" border="1px" borderColor="red.200" borderRadius="md" mb={4}>
-              <Text color="red.600" fontSize="sm">
-                Error: {error}
-              </Text>
-            </Box>
-          )}
-
           {!parsedFormData && !error && (
             <Box p={4} bg="gray.50" border="1px" borderColor="gray.200" borderRadius="md">
               <Text color="gray.600" fontSize="sm">

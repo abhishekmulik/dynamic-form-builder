@@ -20,7 +20,7 @@ function LivePreview() {
 
   return (
     <Box h={{ base: "auto", md: "100%" }}>
-      <Card style={{ height: '100%' }}>
+      <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <CardHeader>
           <CardTitle>
             <HStack spacing={2}>
@@ -28,16 +28,17 @@ function LivePreview() {
               <span>Live Preview</span>
             </HStack>
           </CardTitle>
-          <CardDescription>See your form configuration rendered in real-time</CardDescription>
+          <CardDescription>See your form JSON configuration rendered as a form</CardDescription>
         </CardHeader>
         <Box
-          h={{ base: "auto", md: "calc(100% - 80px)" }}
-          overflow={{ base: "visible", md: "auto" }}
+          flex="1"
+          overflow="auto"
           px={{ base: 4, md: 6 }}
           pb={{ base: 4, md: 6 }}
+          minH="0"
         >
           {error && (
-            <Box p={4} bg="red.50" border="1px" borderColor="red.200" borderRadius="md">
+            <Box p={4} bg="red.50" border="1px" borderColor="red.200" borderRadius="md" mb={4}>
               <Text color="red.600" fontSize="sm">
                 Error: {error}
               </Text>

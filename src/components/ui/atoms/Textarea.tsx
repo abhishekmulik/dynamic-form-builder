@@ -21,7 +21,6 @@ export function TextArea(props: TextareaProps) {
       _focus={{
 
       }}
-      minH="unset"
       overflow="auto"
       cursor={"text"}
       {...props}

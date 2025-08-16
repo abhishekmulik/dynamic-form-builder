@@ -36,7 +36,6 @@ function FormConfigEditor() {
   const handleLoadSample = () => {
     const sampleJson = JSON.stringify(data, null, 2);
     dispatch(setJsonInput(sampleJson));
-    // dispatch(setParsedFormData(data));
   };
 
   return (
@@ -49,14 +48,33 @@ function FormConfigEditor() {
         <Box>
           <JsonInput jsonInput={jsonInput} onChangeHandler={handleJsonChange} error={error} />
         </Box>
-        <Flex justifyContent="end" gap={3}>
-          <Button alignSelf={"center"} onClick={handleLoadSample} variant="ghost" size="sm">
+        <Flex 
+          justifyContent={{ base: "stretch", md: "end" }} 
+          gap={3} 
+          direction={{ base: "column", md: "row" }}
+          mt={4}
+        >
+          <Button 
+            onClick={handleLoadSample} 
+            variant="ghost" 
+            size="sm"
+            w={{ base: "100%", md: "auto" }}
+          >
             Load Sample
           </Button>
-          <Button onClick={handleClear} variant="outline">
+          <Button 
+            onClick={handleClear} 
+            variant="outline"
+            w={{ base: "100%", md: "auto" }}
+          >
             Clear
           </Button>
-          <Button onClick={() => handleLoadConfiguration(jsonInput)} disabled={!jsonInput.trim()}>
+          <Button 
+            onClick={() => handleLoadConfiguration(jsonInput)} 
+            disabled={!jsonInput.trim()}
+            w={{ base: "100%", md: "auto" }}
+            colorScheme="blue"
+          >
             Load Configuration
           </Button>
         </Flex>

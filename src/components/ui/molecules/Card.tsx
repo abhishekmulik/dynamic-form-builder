@@ -12,6 +12,7 @@ const Card = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
       color="secondary.800"
       boxShadow="sm"
       overflow="hidden"
+      height="100%"
       {...props}
     />
   )

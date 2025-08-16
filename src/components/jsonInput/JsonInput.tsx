@@ -16,12 +16,14 @@ function JsonInput({ jsonInput, onChangeHandler, error }: JsonInputProps) {
         placeholder="Paste your form configuration JSON here..."
         fontFamily="mono"
         fontSize="sm"
-        bg="secondary.50"
+        bg="white.200"
         borderColor="secondary.300"
         _hover={{ bg: "secondary.100" }}
         _focus={{ bg: "white" }}
-        rows={25}
-        maxH="60vh"
+        h={{ base: "200px", md: "300px", lg: "400px" }}
+        maxH={{ base: "40vh", md: "50vh", lg: "60vh" }}
+        resize="vertical"
+        overflow="auto"
       />
     </LabeledField>
   )

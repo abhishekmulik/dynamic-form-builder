@@ -8,7 +8,6 @@ export function AppHeader() {
       borderBottomWidth="1px"
       backdropFilter="blur(5px)"
     >
-      {/* <Container maxW="container.xl" > */}
         <Flex align="center" px={4} py={6} justify="space-between">
           <Box>
             <Heading as="h1" size="lg" color="gray.900">
@@ -16,7 +15,6 @@ export function AppHeader() {
             </Heading>
           </Box>
         </Flex>
-      {/* </Container> */}
     </Box>
   );
 }

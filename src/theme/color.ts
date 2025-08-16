@@ -1,3 +1,5 @@
+// This is general color pallate (resource from chakra themes and colours)
+
 export const colors = {
     primary: {
       50: '#E6F6FF',

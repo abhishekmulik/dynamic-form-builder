@@ -34,7 +34,7 @@ export function validateJSON(
     }
 
     // Try parsing
-    let parsed: unknown;
+    let parsed: any;
     try {
         parsed = JSON.parse(input);
     } catch (err) {
@@ -43,6 +43,23 @@ export function validateJSON(
             error: err instanceof Error ? err.message : 'Invalid JSON format'
         };
     }
+
+    if (!Array.isArray(parsed?.fields)) {
+        return {
+            isValid: false,
+            error: `Define the input fields as an array in the property 'fields'`,
+            parsedData: parsed
+        }
+    }
+
+    if (!parsed.formTitle) {
+        return {
+            isValid: false,
+            error: `'formTitle'' field is mandatory`,
+            parsedData: parsed
+        }
+    }
+
 
     // Type checking
     const type = Array.isArray(parsed) ? 'array' : typeof parsed === 'object' && parsed !== null ? 'object' : typeof parsed;

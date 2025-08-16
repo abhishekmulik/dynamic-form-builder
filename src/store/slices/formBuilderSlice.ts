@@ -237,7 +237,7 @@ const formBuilderSlice = createSlice({
       state.formErrors = action.payload;
       state.isFormValid = Object.keys(action.payload).length === 0;
     },
-    clearForm: (state) => {
+    clearConfiguration: (state) => {
       state.jsonInput = '';
       state.error = '';
       state.parsedFormData = null;
@@ -246,8 +246,13 @@ const formBuilderSlice = createSlice({
       state.formErrors = {};
       state.isFormValid = true;
     },
-  },
-});
+    clearForm:(state)=>{
+      const formData = state.formData;
+      Object.keys(formData).forEach(key=>{
+        formData[key]=''
+      })
+    }},
+})
 
 export const {
   setJsonInput,
@@ -256,7 +261,8 @@ export const {
   setLoading,
   updateFormField,
   setFormErrors,
-  clearForm,
+  clearConfiguration,
+  clearForm
 } = formBuilderSlice.actions;
 
 export default formBuilderSlice.reducer;

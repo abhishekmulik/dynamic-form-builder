@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Box, Button, Flex } from '@chakra-ui/react'
 import JsonInput from '../jsonInput/JsonInput'
 import { validateJSON } from '../../utils/common.utils';
-import { useAppDispatch, useAppSelector, setJsonInput, setError, setParsedFormData, clearForm } from '../../store';
+import { useAppDispatch, useAppSelector, setJsonInput, setError, setParsedFormData, clearConfiguration, clearForm } from '../../store';
 import sampleFormConfig from '../../data/sampleFormConfig.json';
 import data2 from '../../data/data2.json';
 import jobApplication from '../../data/job-application.json';
@@ -17,7 +17,6 @@ function FormConfigEditor() {
 
   const handleJsonChange = useCallback((value: string) => {
     dispatch(setJsonInput(value));
-    // handleLoadConfiguration(value)
   }, [dispatch]);
 
   const handleLoadConfiguration = (value: string) => {
@@ -30,7 +29,7 @@ function FormConfigEditor() {
   };
 
   const handleClear = () => {
-    dispatch(clearForm());
+    dispatch(clearConfiguration());
   };
 
   const handleLoadSample = () => {
@@ -39,12 +38,19 @@ function FormConfigEditor() {
   };
 
   return (
-    <Card>
+    <Box h={{ base: "auto", md: "100%" }}>
+    <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <CardHeader>
         <CardTitle>Form Configuration</CardTitle>
         <CardDescription>Load a form configuration from JSON</CardDescription>
       </CardHeader>
-      <CardContent>
+      <Box
+          flex="1"
+          overflow="auto"
+          px={{ base: 4, md: 6 }}
+          pb={{ base: 4, md: 6 }}
+          minH="0"
+        >
         <Box>
           <JsonInput jsonInput={jsonInput} onChangeHandler={handleJsonChange} error={error} />
         </Box>
@@ -52,13 +58,13 @@ function FormConfigEditor() {
           justifyContent={{ base: "stretch", md: "end" }} 
           gap={3} 
           direction={{ base: "column", md: "row" }}
-          mt={4}
         >
           <Button 
             onClick={handleLoadSample} 
             variant="ghost" 
             size="sm"
             w={{ base: "100%", md: "auto" }}
+            alignSelf={"center"}
           >
             Load Sample
           </Button>
@@ -73,13 +79,14 @@ function FormConfigEditor() {
             onClick={() => handleLoadConfiguration(jsonInput)} 
             disabled={!jsonInput.trim()}
             w={{ base: "100%", md: "auto" }}
-            colorScheme="blue"
+            colorScheme='secondary'
           >
             Load Configuration
           </Button>
         </Flex>
-      </CardContent>
+      </Box>
     </Card>
+    </Box>
   )
 }
 

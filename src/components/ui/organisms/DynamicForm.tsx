@@ -81,7 +81,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     }
 
     // Handle other validation rules
-    if (field.validation) {
+    if (field.validation && field.required) {
       const { min, max, pattern } = field.validation;
 
       if (min !== undefined && value < min) {

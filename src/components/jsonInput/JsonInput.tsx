@@ -19,11 +19,11 @@ function JsonInput({ jsonInput, onChangeHandler, error }: JsonInputProps) {
         bg="white.200"
         borderColor="secondary.300"
         _hover={{ bg: "secondary.100" }}
-        _focus={{ bg: "white" }}
-        h={{ base: "200px", md: "300px", lg: "400px" }}
+        _focus={{ bg: "secondary.100" }}
         maxH={{ base: "40vh", md: "50vh", lg: "60vh" }}
         resize="vertical"
         overflow="auto"
+        rows={23}
       />
     </LabeledField>
   )

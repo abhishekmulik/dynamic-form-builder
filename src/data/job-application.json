@@ -206,13 +206,7 @@
       "type": "textarea",
       "label": "Cover Letter",
       "required": false,
-      "placeholder": "Tell us why you're interested in this position and why you'd be a great fit...",
-      "rows": 6,
-      "validation": {
-        "min": 100,
-        "max": 2000,
-        "message": "Cover letter should be between 100 and 2000 characters"
-      }
+      "placeholder": "Tell us why you're interested in this position and why you'd be a great fit..."
     },
     {
       "id": "salaryExpectation",

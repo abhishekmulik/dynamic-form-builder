@@ -37,7 +37,8 @@ interface FormBuilderState {
 - `setError(error: string)` - Sets validation errors
 - `setParsedFormData(data: any)` - Sets successfully parsed form data
 - `setLoading(loading: boolean)` - Sets loading state
-- `clearForm()` - Clears all form data
+- `clearConfiguration()` - Clears JSON data
+- `clearForm()` - Clears Form data
 
 ## Usage in Components
 

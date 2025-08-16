@@ -1,14 +1,27 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/molecules'
-import { HStack, Icon, Box, Text } from '@chakra-ui/react';
+import { HStack, Icon, Box, Text, useToast } from '@chakra-ui/react';
 import { Eye } from 'lucide-react';
-import { useAppSelector } from '../../store';
+import { clearForm, useAppSelector } from '../../store';
 import { DynamicForm, FormConfig } from '../ui/organisms';
+import { useDispatch } from 'react-redux';
 
 function LivePreview() {
   const { parsedFormData, error } = useAppSelector((state) => state.formBuilder);
+  const dispatch = useDispatch();
+  const toast = useToast()
 
   const handleFormSubmit = (data: Record<string, any>) => {
     console.log('Form submitted with data:', data);
+    toast({
+      title: 'Form submitted.',
+      description: "Thanks for the information.",
+      status: 'success',
+      variant:"subtle",
+      duration: 2000,
+      isClosable: true,
+      position:"top"
+    })
+    dispatch(clearForm())
   };
 
   const isFormConfig = (data: any): data is FormConfig => {
@@ -18,6 +31,8 @@ function LivePreview() {
       data.fields.length > 0;
   };
 
+  
+
   return (
     <Box h={{ base: "auto", md: "100%" }}>
       <Card style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -25,7 +40,7 @@ function LivePreview() {
           <CardTitle>
             <HStack spacing={2}>
               <Icon as={Eye} boxSize={5} color="secondary.800" />
-              <span>Live Preview</span>
+              <Text>Live Preview</Text>
             </HStack>
           </CardTitle>
           <CardDescription>See your form JSON configuration rendered as a form</CardDescription>

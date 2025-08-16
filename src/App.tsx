@@ -8,7 +8,7 @@ import { store } from './store';
 function App() {
   return (
     <Provider store={store}>
-      <Box>
+      <Box bg="white.200">
         {/* <ThemeShowcase /> */}
         <FormBuilder />
       </Box>

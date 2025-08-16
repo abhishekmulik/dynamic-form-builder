@@ -6,12 +6,10 @@ import { AppHeader } from '../appHeader/AppHeader'
 
 function FormBuilder() {
   return (
-    <>
     <Box
       h={{ base: "auto", md: "100vh" }}
       minH={{ base: "100vh", md: "100vh" }}
       overflow="hidden"
-      bg="white.200"
     >
       <Box
         position="fixed"
@@ -29,14 +27,15 @@ function FormBuilder() {
           md: "1fr 1fr",
           lg: "1fr 1fr",
         }}
-        gap={{ base: 4, md: 6 }}
+        gap={{ base: 4, md: 4 }}
         h={{ base: "auto", md: "100%" }}
         p={{ base: 3, md: 4 }}
         pt={{ base: "100px", md: "100px" }}
       >
         <Box
-          overflow="hidden"
+          overflow={{ base: "visible", md: "auto" }}
           h={{ base: "auto", md: "100%" }}
+          mt={{ base: 4, md: 0 }}
         >
           <FormConfigEditor />
         </Box>
@@ -49,7 +48,6 @@ function FormBuilder() {
         </Box>
       </Grid>
     </Box>
-    </>
   )
 }
 

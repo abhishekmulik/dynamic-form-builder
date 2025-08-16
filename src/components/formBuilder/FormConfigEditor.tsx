@@ -9,7 +9,7 @@ import data2 from '../../data/data2.json';
 import jobApplication from '../../data/job-application.json';
 import nestedConditionalForm from '../../data/nested-conditional-form.json';
 
-const data = data2;
+const data = jobApplication;
 
 function FormConfigEditor() {
   const dispatch = useAppDispatch();
@@ -17,6 +17,7 @@ function FormConfigEditor() {
 
   const handleJsonChange = useCallback((value: string) => {
     dispatch(setJsonInput(value));
+    // handleLoadConfiguration(value)
   }, [dispatch]);
 
   const handleLoadConfiguration = (value: string) => {
@@ -35,7 +36,7 @@ function FormConfigEditor() {
   const handleLoadSample = () => {
     const sampleJson = JSON.stringify(data, null, 2);
     dispatch(setJsonInput(sampleJson));
-    dispatch(setParsedFormData(data));
+    // dispatch(setParsedFormData(data));
   };
 
   return (
@@ -49,14 +50,14 @@ function FormConfigEditor() {
           <JsonInput jsonInput={jsonInput} onChangeHandler={handleJsonChange} error={error} />
         </Box>
         <Flex justifyContent="end" gap={3}>
-          <Button onClick={handleLoadSample} variant="ghost" size="sm">
+          <Button alignSelf={"center"} onClick={handleLoadSample} variant="ghost" size="sm">
             Load Sample
-          </Button>
-          <Button onClick={() => handleLoadConfiguration(jsonInput)} disabled={!jsonInput.trim()}>
-            Load Configuration
           </Button>
           <Button onClick={handleClear} variant="outline">
             Clear
+          </Button>
+          <Button onClick={() => handleLoadConfiguration(jsonInput)} disabled={!jsonInput.trim()}>
+            Load Configuration
           </Button>
         </Flex>
       </CardContent>

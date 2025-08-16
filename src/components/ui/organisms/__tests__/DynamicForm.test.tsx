@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import formBuilderReducer from '../../../../store/slices/formBuilderSlice';
 import { DynamicForm, FormConfig } from '../DynamicForm';
-import testTheme from '../../../../theme/testTheme';
-import { ChakraProvider } from '@chakra-ui/react';
 
 // Test store setup
 const createTestStore = () => {
@@ -20,7 +18,7 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const store = createTestStore();
   return (
     <Provider store={store}>
-        {children}
+      {children}
     </Provider>
   );
 };
@@ -139,8 +137,8 @@ describe('DynamicForm', () => {
 
     expect(screen.getByText('No form configuration provided')).toBeInTheDocument();
   });
-  describe('Fields Rendering', ()=>{
-    it('should render all form fields', ()=>{
+  describe('Fields Rendering', () => {
+    it('should render all form fields', () => {
       render(
         <TestWrapper>
           <DynamicForm config={simpleFormConfig} />
@@ -152,26 +150,26 @@ describe('DynamicForm', () => {
       expect(screen.getByText('Age')).toBeInTheDocument();
     })
   }),
-  describe('Field Types and Rendering', () => {
-    it('should render text input fields correctly', () => {
-      render(
-        <TestWrapper>
-          <DynamicForm config={simpleFormConfig} />
-        </TestWrapper>
-      );
-      const nameField = screen.getByTestId('name');
-      expect(nameField).toHaveAttribute('type', 'text');
-    });
+    describe('Field Types and Rendering', () => {
+      it('should render text input fields correctly', () => {
+        render(
+          <TestWrapper>
+            <DynamicForm config={simpleFormConfig} />
+          </TestWrapper>
+        );
+        const nameField = screen.getByTestId('name');
+        expect(nameField).toHaveAttribute('type', 'text');
+      });
 
-    it('should render number input fields correctly', () => {
-      render(
-        <TestWrapper>
-          <DynamicForm config={simpleFormConfig} />
-        </TestWrapper>
-      );
+      it('should render number input fields correctly', () => {
+        render(
+          <TestWrapper>
+            <DynamicForm config={simpleFormConfig} />
+          </TestWrapper>
+        );
 
-      const ageField = screen.getByTestId('age');
-      expect(ageField).toHaveAttribute('type', 'number');
+        const ageField = screen.getByTestId('age');
+        expect(ageField).toHaveAttribute('type', 'number');
+      });
     });
-  });
 });

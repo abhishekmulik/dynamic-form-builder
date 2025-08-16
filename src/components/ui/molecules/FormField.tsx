@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Select, RadioGroup, CheckboxGroup, TextArea, SingleCheckbox } from '../atoms';
+import { FieldType } from '../../../types/common.types';
 
 export interface FormFieldOption {
   value: string | number;
@@ -8,7 +9,7 @@ export interface FormFieldOption {
 
 export interface FormFieldProps {
   id: string;
-  type: 'text' | 'email' | 'tel' | 'password' | 'number' | 'date' | 'select' | 'radio' | 'checkbox_group' | 'checkbox' | 'textarea';
+  type: FieldType
   value: any;
   onChange: (value: any) => void;
   required?: boolean;
@@ -27,6 +28,7 @@ export interface FormFieldProps {
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
+  id,
   type,
   value,
   onChange,
@@ -48,7 +50,7 @@ export const FormField: React.FC<FormFieldProps> = ({
             placeholder={placeholder}
             rows={rows}
             isRequired={required}
-            isDisabled={disabled}
+            data-testid={id}
           />
         );
 
@@ -61,6 +63,7 @@ export const FormField: React.FC<FormFieldProps> = ({
             placeholder={placeholder}
             isRequired={required}
             isDisabled={disabled}
+            data-testid={id}
           />
         );
 
@@ -72,19 +75,21 @@ export const FormField: React.FC<FormFieldProps> = ({
             options={options.map(opt => ({ value: String(opt.value), label: opt.label }))}
             isRequired={required}
             isDisabled={disabled}
+            data-testid={id}
           />
         );
 
       case 'checkbox_group':
-          return (
-            <CheckboxGroup
-              value={Array.isArray(value) ? value.map(v => String(v)) : []}
-              onChange={onChange}
-              options={options.map(opt => ({ value: String(opt.value), label: opt.label }))}
-              isRequired={required}
-              isDisabled={disabled}
-            />
-          )
+        return (
+          <CheckboxGroup
+            value={Array.isArray(value) ? value.map(v => String(v)) : []}
+            onChange={onChange}
+            options={options.map(opt => ({ value: String(opt.value), label: opt.label }))}
+            isRequired={required}
+            isDisabled={disabled}
+            data-testid={id}
+          />
+        )
       case 'checkbox':
         return (
           <SingleCheckbox
@@ -94,9 +99,9 @@ export const FormField: React.FC<FormFieldProps> = ({
             isRequired={required}
             isDisabled={disabled}
             isInvalid={!!error}
+            data-testid={id}
           />
         );
-
       default:
         return (
           <Input
@@ -106,6 +111,7 @@ export const FormField: React.FC<FormFieldProps> = ({
             placeholder={placeholder}
             isRequired={required}
             isDisabled={disabled}
+            data-testid={id}
           />
         );
     }

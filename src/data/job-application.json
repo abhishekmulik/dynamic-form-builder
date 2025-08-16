@@ -19,19 +19,6 @@
       ]
     },
     {
-      "id": "otherPosition",
-      "type": "text",
-      "label": "Please specify the position",
-      "required": false,
-      "placeholder": "Describe the position you're applying for",
-      "conditional": {
-        "field": "position",
-        "operator": "equals",
-        "value": "other",
-        "action": "show"
-      }
-    },
-    {
       "id": "firstName",
       "type": "text",
       "label": "First Name",

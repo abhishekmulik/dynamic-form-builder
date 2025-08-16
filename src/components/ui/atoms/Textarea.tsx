@@ -18,9 +18,6 @@ export function TextArea(props: TextareaProps) {
       _hover={{
         borderColor: "none"
       }}
-      _focus={{
-
-      }}
       overflow="auto"
       cursor={"text"}
       {...props}

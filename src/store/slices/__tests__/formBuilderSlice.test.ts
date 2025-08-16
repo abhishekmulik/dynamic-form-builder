@@ -522,6 +522,99 @@ describe('formBuilderSlice', () => {
       expect(state.formData.businessName).toBeUndefined();
       expect(state.formErrors.businessName).toBeUndefined();
     });
+
+    it('should handle nested conditional dependencies in correct order', () => {
+      const formConfig = {
+        formTitle: 'Test Form',
+        fields: [
+          { id: 'userType', type: 'select', label: 'User Type' },
+          {
+            id: 'hasEmployees',
+            type: 'checkbox',
+            label: 'Has Employees',
+            conditional: {
+              field: 'userType',
+              operator: 'equals',
+              value: 'business',
+              action: 'show'
+            }
+          },
+          {
+            id: 'employeeCount',
+            type: 'number',
+            label: 'Employee Count',
+            conditional: {
+              field: 'hasEmployees',
+              operator: 'equals',
+              value: true,
+              action: 'show'
+            }
+          },
+          {
+            id: 'employeeBenefits',
+            type: 'checkbox_group',
+            label: 'Employee Benefits',
+            options: [
+              { value: 'health', label: 'Health Insurance' },
+              { value: 'dental', label: 'Dental Insurance' },
+              { value: 'vision', label: 'Vision Insurance' }
+            ],
+            conditional: {
+              field: 'employeeCount',
+              operator: 'greater_than',
+              value: 0,
+              action: 'show'
+            }
+          }
+        ]
+      };
+
+      store.dispatch(setParsedFormData(formConfig));
+      
+      let state = store.getState().formBuilder;
+      // Initially, only userType should be visible
+      expect(state.formData.userType).toBe('');
+      expect(state.formData.hasEmployees).toBeUndefined();
+      expect(state.formData.employeeCount).toBeUndefined();
+      expect(state.formData.employeeBenefits).toBeUndefined();
+
+      // Update userType to 'business' - should show hasEmployees
+      store.dispatch(updateFormField({ fieldId: 'userType', value: 'business' }));
+      
+      state = store.getState().formBuilder;
+      expect(state.formData.hasEmployees).toBe(false);
+      expect(state.formData.employeeCount).toBeUndefined();
+      expect(state.formData.employeeBenefits).toBeUndefined();
+
+      // Update hasEmployees to true - should show employeeCount
+      store.dispatch(updateFormField({ fieldId: 'hasEmployees', value: true }));
+      
+      state = store.getState().formBuilder;
+      expect(state.formData.employeeCount).toBe('');
+      expect(state.formData.employeeBenefits).toBeUndefined();
+
+      // Update employeeCount to 5 - should show employeeBenefits
+      store.dispatch(updateFormField({ fieldId: 'employeeCount', value: 5 }));
+      
+      state = store.getState().formBuilder;
+      expect(state.formData.employeeBenefits).toEqual([]);
+
+      // Test reverse order - hide employeeBenefits first
+      store.dispatch(updateFormField({ fieldId: 'employeeCount', value: 0 }));
+      
+      state = store.getState().formBuilder;
+      expect(state.formData.employeeBenefits).toBeUndefined();
+      expect(state.formData.employeeCount).toBe(0);
+      expect(state.formData.hasEmployees).toBe(true);
+
+      // Hide hasEmployees
+      store.dispatch(updateFormField({ fieldId: 'hasEmployees', value: false }));
+      
+      state = store.getState().formBuilder;
+      expect(state.formData.employeeCount).toBeUndefined();
+      expect(state.formData.employeeBenefits).toBeUndefined();
+      expect(state.formData.hasEmployees).toBe(false);
+    });
   });
 
   describe('Form Validation', () => {

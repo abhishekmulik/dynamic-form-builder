@@ -75,21 +75,65 @@ const getVisibleFields = (fields: any[]): any[] => {
     }
   };
   
-  // First pass: add all non-conditional fields and initialize temp form data
+  // Build dependency graph and find evaluation order
+  const dependencyGraph = new Map<string, string[]>();
+  const inDegree = new Map<string, number>();
+  
+  // Initialize in-degree for all fields
   fields.forEach(field => {
-    if (!field.conditional) {
-      visibleFields.push(field);
-      // Initialize with proper default value for dependency evaluation
-      tempFormData[field.id] = getDefaultValue(field);
+    inDegree.set(field.id, 0);
+    dependencyGraph.set(field.id, []);
+  });
+  
+  // Build dependency graph
+  fields.forEach(field => {
+    if (field.conditional && field.conditional.field) {
+      const dependencyId = field.conditional.field;
+      if (dependencyGraph.has(dependencyId)) {
+        dependencyGraph.get(dependencyId)!.push(field.id);
+        inDegree.set(field.id, (inDegree.get(field.id) || 0) + 1);
+      }
     }
   });
   
-  // Second pass: evaluate conditional fields
+  // Topological sort using Kahn's algorithm
+  const queue: string[] = [];
+  const evaluationOrder: string[] = [];
+  
+  // Add fields with no dependencies to queue
   fields.forEach(field => {
-    if (field.conditional) {
+    if (inDegree.get(field.id) === 0) {
+      queue.push(field.id);
+    }
+  });
+  
+  while (queue.length > 0) {
+    const currentFieldId = queue.shift()!;
+    evaluationOrder.push(currentFieldId);
+    
+    // Process dependencies
+    const dependents = dependencyGraph.get(currentFieldId) || [];
+    dependents.forEach(dependentId => {
+      inDegree.set(dependentId, inDegree.get(dependentId)! - 1);
+      if (inDegree.get(dependentId) === 0) {
+        queue.push(dependentId);
+      }
+    });
+  }
+  
+  // Process fields in dependency order
+  evaluationOrder.forEach(fieldId => {
+    const field = fields.find(f => f.id === fieldId);
+    if (!field) return;
+    
+    if (!field.conditional) {
+      // Non-conditional fields are always visible
+      visibleFields.push(field);
+      tempFormData[field.id] = getDefaultValue(field);
+    } else {
+      // Conditional fields - check if they should be visible
       if (isFieldVisible(field, tempFormData)) {
         visibleFields.push(field);
-        // Add to temp form data for future dependency evaluations
         tempFormData[field.id] = getDefaultValue(field);
       }
     }
@@ -247,11 +291,51 @@ const formBuilderSlice = createSlice({
       state.isFormValid = true;
     },
     clearForm:(state)=>{
-      const formData = state.formData;
-      Object.keys(formData).forEach(key=>{
-        formData[key]=''
-      })
-    }},
+      // Clear form data but maintain conditional field visibility
+      if (state.parsedFormData && state.parsedFormData.fields) {
+        const fields = state.parsedFormData.fields;
+        
+        // Clear only the fields that should currently be visible
+        Object.keys(state.formData).forEach(key => {
+          const field = fields.find((f: any) => f.id === key);
+          if (field) {
+            // Reset to default value instead of clearing completely
+            const providedDefault = field?.defaultValue;
+            switch (field.type) {
+              case 'checkbox_group': {
+                state.formData[key] = providedDefault !== undefined 
+                  ? (Array.isArray(providedDefault) ? providedDefault : [providedDefault])
+                  : [];
+                break;
+              }
+              case 'checkbox': {
+                state.formData[key] = providedDefault !== undefined ? Boolean(providedDefault) : false;
+                break;
+              }
+              case 'number': {
+                state.formData[key] = (providedDefault !== undefined && providedDefault !== null && providedDefault !== '')
+                  ? Number(providedDefault)
+                  : '';
+                break;
+              }
+              default: {
+                state.formData[key] = providedDefault !== undefined ? providedDefault : '';
+              }
+            }
+          }
+        });
+      } else {
+        // If no parsed form data, just clear everything
+        Object.keys(state.formData).forEach(key => {
+          state.formData[key] = '';
+        });
+      }
+      
+      // Clear all form errors
+      state.formErrors = {};
+      state.isFormValid = true;
+    }
+  },
 })
 
 export const {

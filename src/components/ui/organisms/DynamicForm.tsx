@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Box, Button, Text, Heading, VStack } from '@chakra-ui/react';
 import { FormField } from '../molecules/FormField';
 import { LabeledField } from '../molecules/LabeledField';
@@ -7,7 +7,7 @@ import { updateFormField, setFormErrors } from '../../../store';
 import { FieldType, OperatorType } from '../../../types/common.types';
 
 export interface ConditionalRule {
-  field: string;           // Which field to check
+  field: string;         
   operator: OperatorType
   value?: any;
   action: 'show' | 'hide';
@@ -27,10 +27,10 @@ export interface FormFieldConfig {
     max?: number;
     pattern?: string;
     message?: string;
-    value?: boolean; // New: for checkbox required validation
+    value?: boolean; 
   };
-  conditional?: ConditionalRule;  // New: conditional rendering rule
-  defaultValue?: any; // New: default value to prefill
+  conditional?: ConditionalRule;
+  defaultValue?: any;
 }
 
 export interface FormConfig {
@@ -52,22 +52,11 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   onSubmit,
 }) => {
   const dispatch = useAppDispatch();
-  const [configurationData, setConfigurationData] = useState(config);
-
+  
   const { formData, formErrors, isFormValid } = useAppSelector((state) => state.formBuilder);
-
-  useEffect(() => {
-    setConfigurationData(config);
-  }, [config])
-
-  useEffect(() => {
-    if (configurationData?.fields && configurationData.fields.length > 0) {
-      configurationData.fields.forEach((field) => {
-        const defaultValue = field.defaultValue !== undefined ? field.defaultValue : (field.type === 'checkbox' ? false : '');
-        dispatch(updateFormField({ fieldId: field.id, value: defaultValue }));
-      });
-    }
-  }, [configurationData, dispatch]);
+  const visibleFields = useMemo(() => {
+    return config?.fields.filter(field => field.id in formData) || [];
+  }, [config?.fields, formData]);
 
   const validateField = (field: FormFieldConfig, value: any): string => {
     console.log(field, value)
@@ -115,7 +104,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
 
     // Only validate fields that are currently in formData (visible fields)
     Object.keys(formData).forEach((fieldId) => {
-      const field = configurationData?.fields.find(f => f.id === fieldId);
+      const field = config?.fields.find(f => f.id === fieldId);
       if (field) {
         const error = validateField(field, formData[fieldId]);
         if (error) {
@@ -138,7 +127,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     onSubmit?.(formData);
   };
 
-  if (!configurationData || !configurationData.fields || configurationData?.fields?.length === 0) {
+  if (!config || !config.fields || config?.fields?.length === 0) {
     return (
       <Box p={6} textAlign="center">
         <Text color="gray.500">No form configuration provided</Text>
@@ -146,21 +135,17 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     );
   }
 
-  // Only render fields that are currently in formData (visible fields)
-  const visibleFields = configurationData.fields.filter(field => field.id in formData);
-
   return (
     <React.Fragment>
       <Box as="form" p={6}>
-        {configurationData.formTitle && (
+        {config.formTitle && (
           <Heading size="lg" mb={6} textAlign="center">
-            {configurationData.formTitle}
+            {config.formTitle}
           </Heading>
         )}
 
-        <VStack gap={0} align="stretch">
+        <VStack gap={1} align="stretch">
           {visibleFields.map((field) => {
-            // For single checkboxes, we don't need LabeledField wrapper since the checkbox has its own label
             if (field.type === 'checkbox') {
               return (
                 <FormField
@@ -176,12 +161,10 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
                   options={field.options}
                   rows={field.rows}
                   validation={field.validation}
-                  label={field.label} // Pass label for single checkbox
+                  label={field.label} 
                 />
               );
             }
-
-            // For all other fields, use LabeledField wrapper
             return (
               <LabeledField
                 key={field.id}
@@ -214,7 +197,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
             onClick={handleSubmit}
             disabled={Object.keys(formErrors).length > 0}
           >
-            {configurationData.submitButton?.text || 'Submit'}
+            {config.submitButton?.text || 'Submit'}
           </Button>
         </VStack>
       </Box>
